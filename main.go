@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 )
 
 func main() {
@@ -15,6 +16,7 @@ func main() {
 		switch choice {
 		case "1":
 			fmt.Println("Starting full deployment")
+			run("ls -a -l -h")
 			os.Exit(0)
 		case "2":
 			fmt.Println("Generating web content")
@@ -37,3 +39,10 @@ func showHelp() {
 	fmt.Println("h. Show help")
 }
 
+func run(command string) {
+	out, err := exec.Command("bash", "-c", command).Output()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(out))
+}
