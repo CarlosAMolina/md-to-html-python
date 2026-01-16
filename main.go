@@ -5,20 +5,10 @@ import (
 	"os"
 )
 
-func showHelp() {
-	fmt.Println("Please select an option:")
-	fmt.Println("1. Full deployment. Run all steps")
-	fmt.Println("2. Generate web content. Convert Markdown to HTML")
-	fmt.Println("e. Exit")
-	fmt.Println("h. Show help")
-}
-
 func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
-
 	var choice string
-
 	for {
 		fmt.Print(">> ")
 		fmt.Scan(&choice)
@@ -38,3 +28,12 @@ func main() {
 		}
 	}
 }
+
+func showHelp() {
+	fmt.Println("Please select an option:")
+	fmt.Println("1. Full deployment. Run all steps")
+	fmt.Println("2. Generate web content. Convert Markdown to HTML")
+	fmt.Println("e. Exit")
+	fmt.Println("h. Show help")
+}
+
