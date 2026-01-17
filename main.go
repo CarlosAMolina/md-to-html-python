@@ -56,8 +56,13 @@ func run(command string) {
 func testLocal() {
 	fmt.Println("Testing local")
 	pullCmoli()
+	pullProjects()
 }
 
 func pullCmoli() {
 	run("git pull origin $(git branch --show-current)")
+}
+
+func pullProjects() {
+	run("TODO")
 }
