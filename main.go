@@ -9,8 +9,8 @@ import (
 func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
-	pullProjects() // TODO rm
-	os.Exit(0)     // TODO rm
+	pullWiki() // TODO rm
+	os.Exit(0) // TODO rm
 	var choice string
 	for {
 		fmt.Print(">> ")
@@ -59,6 +59,7 @@ func testLocal() {
 	fmt.Println("Testing local")
 	pullCmoli()
 	pullProjects()
+	pullWiki()
 }
 
 func pullCmoli() {
@@ -73,6 +74,15 @@ func pullProjects() {
 	run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/checkIframe /tmp/checkIframe")
 	run("mv /tmp/checkIframe/docs src/projects/check-iframe")
 	run("rm -rf /tmp/checkIframe")
+}
+
+func pullWiki() {
+	if exists("src/wiki") {
+		run("rm -rf src/wiki")
+	}
+	run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/wiki /tmp/wiki")
+	run("mv /tmp/wiki/src src/wiki")
+	run("rm -rf /tmp/wiki")
 }
 
 func exists(dirPath string) bool {
