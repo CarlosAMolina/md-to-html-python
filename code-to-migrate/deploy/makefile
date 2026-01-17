@@ -5,7 +5,6 @@ SCRIPT_CLONE_TOOLS_PATHNAME=$(ROOT_PATHNAME)/clone-tools-to-docker-volume
 SCRIPT_MODIFY_HTML_FILES=$(ROOT_PATHNAME)/modify-html
 SCRIPT_OPEN_HTML_PATHNAME=$(ROOT_PATHNAME)/open-html
 SCRIPT_SET_MEDIA_CONTENT=$(ROOT_PATHNAME)/set-media-content-to-docker-volume
-SCRIPT_UPDATE_AND_ASSERT_GIT_BRANCH=$(ROOT_PATHNAME)/update-git-branch-and-raise-exception-if-required-file-not-updated
 DOCKER_NGINX_IMAGE_NAME=nginx:latest
 DOCKER_PANDOC_IMAGE_NAME=pandoc/minimal:2.17-alpine
 DOCKER_PYTHON_IMAGE_NAME=python:3.8.15-alpine3.16
@@ -14,9 +13,6 @@ DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT=nginx-web-content
 DOCKER_VOLUME_NAME_PANDOC=pandoc
 MEDIA_CONTENT_PATHNAME=$(HOME)/Software/cmoli-media-content
 URL_NGINX_LOCALHOST=http://localhost:8080
-
-assert-required-file-updated-and-update-branch:
-	/bin/bash $(SCRIPT_UPDATE_AND_ASSERT_GIT_BRANCH)
 
 activate-docker-if-not-active:
 	/bin/bash activate-docker-service-if-not-active
@@ -66,8 +62,7 @@ stop-containers:
 	make -f makefile-nginx \
 	    stop-if-running
 
-test: assert-required-file-updated-and-update-branch \
-	clone-projects-content \
+test: clone-projects-content \
 	clone-wiki \
 	activate-docker-if-not-active \
 	stop-containers \
