@@ -17,9 +17,6 @@ URL_NGINX_LOCALHOST=http://localhost:8080
 activate-docker-if-not-active:
 	/bin/bash activate-docker-service-if-not-active
 
-clone-projects-content:
-	/bin/bash $(ROOT_PATHNAME)/projects/clone-projects-content $(MAIN_PROJECT_ROOT_PATHNAME)
-
 clone-wiki:
 	/bin/bash $(ROOT_PATHNAME)/wiki/clone-wiki $(MAIN_PROJECT_ROOT_PATHNAME)
 
@@ -62,8 +59,7 @@ stop-containers:
 	make -f makefile-nginx \
 	    stop-if-running
 
-test: clone-projects-content \
-	clone-wiki \
+test: clone-wiki \
 	activate-docker-if-not-active \
 	stop-containers \
 	create-web-content \
