@@ -3,14 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
-	"os/exec"
 )
 
 func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
-	pullWiki() // TODO rm
-	os.Exit(0) // TODO rm
+	startDockerService() // TODO rm
+	os.Exit(0)           // TODO rm
 	var choice string
 	for {
 		fmt.Print(">> ")
@@ -44,22 +43,12 @@ func showHelp() {
 	fmt.Println("h. Show help")
 }
 
-func run(command string) {
-	fmt.Println(command)
-	out, err := exec.Command("bash", "-c", command).Output()
-	if err != nil {
-		panic(err)
-	}
-	if len(string(out)) != 0 {
-		fmt.Println(string(out))
-	}
-}
-
 func testLocal() {
 	fmt.Println("Testing local")
 	pullCmoli()
 	pullProjects()
 	pullWiki()
+	startDockerService()
 }
 
 func pullCmoli() {
