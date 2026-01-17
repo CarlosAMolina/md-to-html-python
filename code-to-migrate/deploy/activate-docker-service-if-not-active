@@ -1,0 +1,39 @@
+#!/bin/bash
+
+SERVICE=docker
+
+is_service_active() {
+  if systemctl --user is-active --quiet ${SERVICE}; then
+    echo 0 # 0 = true
+  else
+    echo 1 # 1 = false
+  fi
+}
+
+wait-until-service-is-active() {
+  echo "[DEBUG] Init wait until service $SERVICE is active"
+  while [ $(is_service_active) -eq 1 ]
+  do
+    echo "[DEBUG] The service is not active. Init wait a few seconds"
+    sleep 5
+  done
+  echo "[DEBUG] The service is active"
+}
+
+echo "[DEBUG] Init check service $SERVICE is active"
+if [ "$(is_service_active)" -eq 0 ]; then
+  echo "[DEBUG] The service is active"
+else
+  echo "[DEBUG] The service is not active"
+  echo "[DEBUG] Init service activation"
+  systemctl --user start $SERVICE
+  wait-until-service-is-active
+fi
+echo "[DEBUG] Init wait until service $SERVICE accepts commands"
+while [ $(/bin/bash is-docker-available) -eq 1 ]
+do
+  echo "[DEBUG] Docker is not available. Init wait a few seconds"
+  sleep 5
+done
+echo "[DEBUG] Docker is available"
+

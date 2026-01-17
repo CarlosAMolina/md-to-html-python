@@ -1,0 +1,34 @@
+#!/bin/bash
+
+volumes=( "$@" )
+
+remove_if_exists() {
+  volume=$1
+  echo "[DEBUG] Init remove volume ${volume}"
+  if exists_volume ${volume}; then
+    echo "[DEBUG] The volume exists. Init remove"
+    docker volume rm ${volume}
+    if exists_volume ${volume}; then
+      echo "[ERROR] The volume has not been removed"
+      exit 1
+    else
+      echo "[DEBUG] The volume has been removed"
+    fi
+  else
+    echo "[DEBUG] The volume does not exist, no action is required"
+  fi
+}
+
+exists_volume() {
+  if docker volume ls | grep -q ${volume}; then
+    return 0; # 0 = true
+  else
+    return 1; # 1 = false
+  fi
+}
+
+for volume in ${volumes[@]};
+do
+  remove_if_exists ${volume}
+done
+

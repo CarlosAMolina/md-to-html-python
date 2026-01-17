@@ -1,0 +1,10 @@
+cd /tmp
+rm -rf cmoli.es
+rm root-relative-pathnames.txt
+rm input.txt
+rm output-relative.txt
+rm output.txt
+rm path-names-converted.txt
+rm path-names-to-convert.txt
+rm run-on-files-convert-md-to-html
+cd -

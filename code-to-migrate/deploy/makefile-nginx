@@ -1,0 +1,44 @@
+DOCKERFILE=Dockerfile-nginx
+DOCKER_CUSTOM_IMAGE_NAME=nginx-cmoli
+DOCKER_CONTAINER_NAME=$(DOCKER_CUSTOM_IMAGE_NAME)-container
+DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)
+DOCKER_VOLUME_NGINX_WEB_CONTENT=$(DOCKER_VOLUME_NGINX_WEB_CONTENT)
+DOCKER_VOLUME_NGINX_LOGS=$(DOCKER_VOLUME_NGINX_LOGS)
+URL_NGINX_LOCALHOST=$(URL_NGINX_LOCALHOST)
+
+pull-docker-image:
+	docker pull $(DOCKER_IMAGE_NAME)
+
+build-docker-image:
+	docker build \
+		-t $(DOCKER_CUSTOM_IMAGE_NAME) \
+		-f $(DOCKERFILE) \
+		--build-arg docker_image=$(DOCKER_IMAGE_NAME) \
+		.
+
+run-server:
+	docker run \
+		-it \
+		--rm \
+		-d \
+		-p 8080:80 \
+		--name $(DOCKER_CONTAINER_NAME) \
+		--mount type=volume,source=$(DOCKER_VOLUME_NGINX_LOGS),target=/var/log/nginx \
+		--mount type=volume,source=$(DOCKER_VOLUME_NGINX_WEB_CONTENT),target=/usr/share/nginx/html,readonly \
+		$(DOCKER_CUSTOM_IMAGE_NAME)
+
+wait-nginx-is-listening:
+	/bin/bash wait-until-nginx-is-listening \
+		$(URL_NGINX_LOCALHOST)
+
+run: pull-docker-image build-docker-image run-server wait-nginx-is-listening
+
+connect:
+	docker exec -it $(DOCKER_CONTAINER_NAME) /bin/bash
+
+logs:
+	/bin/bash show-nginx-logs $(DOCKER_VOLUME_NGINX_LOGS)
+
+stop-if-running:
+	/bin/bash stop-container $(DOCKER_CONTAINER_NAME)
+

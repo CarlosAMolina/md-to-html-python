@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "[DEBUG] Init update current git branch"
+current_branch=$(git branch --show-current)
+echo "[DEBUG] Current git branch: $current_branch"
+git pull origin $current_branch
+

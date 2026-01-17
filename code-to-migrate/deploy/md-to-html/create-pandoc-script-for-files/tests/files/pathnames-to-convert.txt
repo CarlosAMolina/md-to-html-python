@@ -1,0 +1,2 @@
+/home/files/foo.md
+/home/files/folder-1/bar.md

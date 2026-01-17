@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+ARG docker_image
+FROM $docker_image
+ARG volume_nginx_web_content
+ARG volume_pandoc
+ENV volume_nginx_web_content=${volume_nginx_web_content}
+ENV volume_pandoc=${volume_pandoc}
+ENTRYPOINT /bin/sh /$volume_pandoc/run-create-pandoc-script-for-files $volume_nginx_web_content $volume_pandoc
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

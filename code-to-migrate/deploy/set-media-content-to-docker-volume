@@ -1,0 +1,9 @@
+#!/bin/bash
+
+volume_name_nginx_web_content=$1
+media_content_pathname=$2
+
+volume_web_content_pathname=$(/bin/bash get-docker-volume-pathname "${volume_name_nginx_web_content}")
+echo "[ÐEBUG] Init copy media from $media_content_pathname to $volume_web_content_pathname"
+cp -r $media_content_pathname/* $volume_web_content_pathname
+

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+volume_name_nginx_web_content=$1
+volume_name_pandoc=$2
+
+echo "[DEBUG] Init create pandoc script"
+python \
+	/${volume_name_pandoc}/create-pandoc-script-for-files/src/main.py \
+	/${volume_name_nginx_web_content} \
+	/${volume_name_pandoc}

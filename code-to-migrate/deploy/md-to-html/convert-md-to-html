@@ -1,0 +1,19 @@
+#!/bin/bash
+
+input_file_pathname=$1
+output_file_pathname=$2
+root_directory_relative_path_name=$3
+volume_name_pandoc=$4
+pandoc_template_pathname=${volume_name_pandoc}/pandoc-config/template.html
+pandoc_metadata_pathname=${volume_name_pandoc}/pandoc-config/metadata.yml
+
+pandoc \
+    --variable root_directory_relative_path_name="${root_directory_relative_path_name}" \
+    --standalone \
+    --template="${pandoc_template_pathname}" \
+    -t html \
+    "${pandoc_metadata_pathname}" \
+    $input_file_pathname \
+    -o "${output_file_pathname}"
+
+rm $input_file_pathname

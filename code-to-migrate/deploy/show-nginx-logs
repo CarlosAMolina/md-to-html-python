@@ -1,0 +1,7 @@
+#!/bin/bash
+
+volume_name_nginx_logs=$1
+
+volume_path=$(/bin/bash get-docker-volume-pathname "${volume_name_nginx_logs}")
+
+tail -f $volume_path/access.log

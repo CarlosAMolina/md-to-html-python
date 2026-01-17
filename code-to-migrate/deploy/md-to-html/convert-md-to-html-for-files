@@ -1,0 +1,40 @@
+#!/bin/bash
+
+docker_pandoc_image_name=$1
+docker_python_image_name=$2
+docker_volume_name_nginx_web_content=$3
+docker_volume_name_pandoc=$4
+
+echo "[DEBUG] Init create-pandoc-script-for-files"
+# This script is called out of the md-to-html folder, we need to `cd` to it.
+cd md-to-html
+make -f makefile-create-pandoc-script-for-files \
+	run \
+	DOCKER_IMAGE_NAME=${docker_python_image_name} \
+	DOCKER_VOLUME_NGINX_WEB_CONTENT=${docker_volume_name_nginx_web_content} \
+	DOCKER_VOLUME_PANDOC=${docker_volume_name_pandoc}
+cd ..
+
+volume_pandoc_pathname=$(/bin/bash get-docker-volume-pathname "${docker_volume_name_pandoc}")
+script_pathname=${volume_pandoc_pathname}/run-on-files-convert-md-to-html
+
+echo "[DEBUG] Init check if the file has been created: ${script_pathname}"
+if [ -f "$script_pathname" ]; then
+    echo "[DEBUG] The file has been created"
+else
+    echo "[ERROR] The file has not been created"
+    exit 1
+fi
+
+echo "[DEBUG] Init make script executable"
+chmod +x ${script_pathname}
+
+echo "[DEBUG] Init makefile-convert-md-to-html-for-files"
+# This script is called out of the md-to-html folder, we need to `cd` to it.
+cd md-to-html
+make -f makefile-convert-md-to-html-for-files \
+	run \
+	DOCKER_IMAGE_NAME=${docker_pandoc_image_name} \
+	DOCKER_VOLUME_NGINX_WEB_CONTENT=${docker_volume_name_nginx_web_content} \
+	DOCKER_VOLUME_PANDOC=${docker_volume_name_pandoc}
+cd ..

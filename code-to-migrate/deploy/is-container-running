@@ -1,0 +1,9 @@
+#!/bin/bash
+
+container=$1
+
+if docker ps | grep -q ${container}; then
+  echo 0 # 0 = true
+else
+  echo 1 # 1 = false
+fi

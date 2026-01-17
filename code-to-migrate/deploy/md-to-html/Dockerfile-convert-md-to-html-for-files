@@ -1,0 +1,7 @@
+# syntax=docker/dockerfile:1
+ARG docker_image
+FROM $docker_image
+ARG volume_pandoc
+ENV volume_pandoc=${volume_pandoc}
+ENTRYPOINT /bin/sh /$volume_pandoc/run-on-files-convert-md-to-html
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

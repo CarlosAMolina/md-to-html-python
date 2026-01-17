@@ -1,0 +1,12 @@
+#!/bin/bash
+
+url=$1
+
+echo "[DEBUG] Init wait until nginx is listening on ${url}"
+while [ $(/bin/bash is-nginx-listening ${url}) -eq 1 ]
+do
+  echo "[DEBUG] Nginx is not listening. Init wait a few seconds"
+  sleep 5
+done
+echo "[DEBUG] Nginx is listening"
+

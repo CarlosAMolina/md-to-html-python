@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker_volume_name_nginx_web_content=$1
+
+echo "[DEBUG] Init modify html files"
+docker_volume_nginx_web_content_pathname=$(/bin/bash get-docker-volume-pathname "${docker_volume_name_nginx_web_content}")
+file_pathname=${docker_volume_nginx_web_content_pathname}/projects/rust-vs-other-languages/02-results-summary.html
+echo "[DEBUG] Init modify file: $file_pathname"
+sed -i 's/<table>/<table class="center">/g' $file_pathname

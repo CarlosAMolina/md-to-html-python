@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e # Exit if any command fails.
+
+main_project_pathname=$1
+
+wiki_repository_name=wiki
+wiki_pathname=$main_project_pathname/src/$wiki_repository_name
+
+echo "[DEBUG] Starting wiki"
+if [ -d ${wiki_pathname} ]; then
+  echo "[DEBUG] Deleting old wiki pathname ${wiki_pathname}"
+  rm -rf ${wiki_pathname}
+fi
+echo "[DEBUG] Cloning wiki"
+git clone --depth=1 --branch=main https://github.com/CarlosAMolina/${wiki_repository_name} /tmp/${wiki_repository_name}
+echo "[DEBUG] Moving cloned wiki files to the current repository"
+mv /tmp/${wiki_repository_name}/src ${wiki_pathname}
+echo "[DEBUG] Deleting cloned wiki repository"
+rm -rf /tmp/${wiki_repository_name}
