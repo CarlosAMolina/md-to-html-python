@@ -55,9 +55,9 @@ func run(command string) {
 
 func testLocal() {
 	fmt.Println("Testing local")
-	gitPull()
+	pullCmoli()
 }
 
-func gitPull() {
+func pullCmoli() {
 	run("git pull origin $(git branch --show-current)")
 }
