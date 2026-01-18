@@ -18,7 +18,7 @@ func startDockerService() {
 	}
 	for {
 		// Although the docker daemon is active, on some systems it takes some time before docker runs.
-		if runGetError("docker ps") != nil {
+		if runsOk("docker ps") {
 			break
 		}
 		time.Sleep(5 * time.Second)
@@ -26,7 +26,11 @@ func startDockerService() {
 }
 
 func isServiceActive() bool {
-	err := runGetError("systemctl --user is-active --quiet docker")
+	return runsOk("systemctl --user is-active --quiet docker")
+}
+
+func runsOk(command string) bool {
+	err := runGetError(command)
 	if err == nil {
 		return true
 	}
