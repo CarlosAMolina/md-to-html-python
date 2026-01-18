@@ -7,12 +7,15 @@ import (
 )
 
 func startDockerService() {
-	if !isServiceActive() {
-		run("systemctl --user start docker")
-	}
+	var hasBeenActivated = false
 	for {
 		if isServiceActive() {
 			break
+		}
+		if !hasBeenActivated {
+			run("systemctl --user start docker")
+			hasBeenActivated = true
+			continue
 		}
 		time.Sleep(5 * time.Second)
 	}
