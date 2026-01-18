@@ -15,9 +15,6 @@ MEDIA_CONTENT_PATHNAME=$(HOME)/Software/cmoli-media-content
 URL_NGINX_LOCALHOST=http://localhost:8080
 
 create-web-content:
-	/bin/bash remove-volumes \
-		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT) \
-		$(DOCKER_VOLUME_NAME_PANDOC)
 	/bin/bash $(SCRIPT_CONVERT_MD_TO_HTML_PATHNAME) \
 		$(DOCKER_PANDOC_IMAGE_NAME) \
 		$(DOCKER_PYTHON_IMAGE_NAME) \

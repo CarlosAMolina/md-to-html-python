@@ -5,6 +5,20 @@ import (
 	"time"
 )
 
+func removeVolume(volume string) {
+	var hasBeenRemoved = false
+	for {
+		if !existsVolume(volume) {
+			break
+		}
+		if !hasBeenRemoved {
+			run("docker volume rm " + volume)
+			hasBeenRemoved = true
+		}
+		sleep()
+	}
+}
+
 func stopContainer(container string) {
 	var hasBeenStopped = false
 	for {
@@ -52,4 +66,9 @@ func sleep() {
 func isContainerRunning(container string) bool {
 	out := run("docker ps --format '{{.Names}}'")
 	return strings.Contains(string(out), container)
+}
+
+func existsVolume(volume string) bool {
+	out := run("docker volume ls -q")
+	return strings.Contains(string(out), volume)
 }

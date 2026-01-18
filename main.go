@@ -8,8 +8,8 @@ import (
 func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
-	stopContainer("nginx-cmoli-container") // TODO rm
-	os.Exit(0)                             // TODO rm
+	removeVolume("test") // TODO rm
+	os.Exit(0)           // TODO rm
 	var choice string
 	for {
 		fmt.Print(">> ")
@@ -50,6 +50,8 @@ func testLocal() {
 	pullWiki()
 	startDockerService()
 	stopContainer("nginx-cmoli-container")
+	removeVolume("nginx-web-content")
+	removeVolume("pandoc")
 }
 
 func pullCmoli() {
