@@ -7,10 +7,7 @@ import (
 
 func removeVolume(volume string) {
 	var hasBeenRemoved = false
-	for {
-		if !existsVolume(volume) {
-			break
-		}
+	for existsVolume(volume) {
 		if !hasBeenRemoved {
 			run("docker volume rm " + volume)
 			hasBeenRemoved = true
