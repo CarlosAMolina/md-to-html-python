@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os/exec"
 	"time"
 )
 
@@ -30,12 +28,6 @@ func startDockerService() {
 
 func isServiceActive() bool {
 	return runsOk("systemctl --user is-active --quiet docker")
-}
-
-func runsOk(command string) bool {
-	fmt.Println(command)
-	err := exec.Command("bash", "-c", command).Run()
-	return err == nil
 }
 
 func sleep() {
