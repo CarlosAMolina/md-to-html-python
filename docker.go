@@ -35,10 +35,7 @@ func isServiceActive() bool {
 func runsOk(command string) bool {
 	fmt.Println(command)
 	err := exec.Command("bash", "-c", command).Run()
-	if err == nil {
-		return true
-	}
-	return false
+	return err == nil
 }
 
 func sleep() {
