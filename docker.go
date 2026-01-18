@@ -16,12 +16,10 @@ func removeVolume(volume string) {
 	}
 }
 
+// To test the function, you can run container with: docker run -it --rm --name nginx-cmoli-container nginx-cmoli
 func stopContainer(container string) {
 	var hasBeenStopped = false
-	for {
-		if !isContainerRunning(container) {
-			break
-		}
+	for isContainerRunning(container) {
 		if !hasBeenStopped {
 			run("docker stop " + container)
 			hasBeenStopped = true

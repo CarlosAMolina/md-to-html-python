@@ -8,7 +8,7 @@ import (
 func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
-	removeVolume("test") // TODO rm
+	stopContainer("nginx-cmoli-container") // TODO rm
 	os.Exit(0)           // TODO rm
 	var choice string
 	for {
