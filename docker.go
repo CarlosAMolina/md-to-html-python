@@ -30,15 +30,10 @@ func isServiceActive() bool {
 }
 
 func runsOk(command string) bool {
-	err := runGetError(command)
+	fmt.Println(command)
+	err := exec.Command("bash", "-c", command).Run()
 	if err == nil {
 		return true
 	}
 	return false
-}
-
-func runGetError(command string) error {
-	fmt.Println(command)
-	err := exec.Command("bash", "-c", command).Run()
-	return err
 }
