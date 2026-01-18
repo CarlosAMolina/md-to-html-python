@@ -1,8 +1,23 @@
 package main
 
 import (
+	"strings"
 	"time"
 )
+
+func stopContainer(container string) {
+	var hasBeenStopped = false
+	for {
+		if !isContainerRunning(container) {
+			break
+		}
+		if !hasBeenStopped {
+			run("docker stop " + container)
+			hasBeenStopped = true
+		}
+		sleep()
+	}
+}
 
 func startDockerService() {
 	var hasBeenActivated = false
@@ -32,4 +47,9 @@ func isServiceActive() bool {
 
 func sleep() {
 	time.Sleep(5 * time.Second)
+}
+
+func isContainerRunning(container string) bool {
+	out := run("docker ps --format '{{.Names}}'")
+	return strings.Contains(string(out), container)
 }

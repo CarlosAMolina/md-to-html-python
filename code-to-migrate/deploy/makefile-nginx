@@ -38,7 +38,3 @@ connect:
 
 logs:
 	/bin/bash show-nginx-logs $(DOCKER_VOLUME_NGINX_LOGS)
-
-stop-if-running:
-	/bin/bash stop-container $(DOCKER_CONTAINER_NAME)
-

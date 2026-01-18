@@ -49,12 +49,7 @@ show-logs:
 		logs \
 		DOCKER_VOLUME_NGINX_LOGS=$(DOCKER_VOLUME_NAME_NGINX_LOGS)
 
-stop-containers:
-	make -f makefile-nginx \
-	    stop-if-running
-
-test: stop-containers \
-	create-web-content \
+test: create-web-content \
 	create-web-server \
 	show-web
 
