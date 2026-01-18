@@ -17,14 +17,14 @@ func startDockerService() {
 			hasBeenActivated = true
 			continue
 		}
-		time.Sleep(5 * time.Second)
+		sleep()
 	}
 	for {
 		// Although the docker daemon is active, on some systems it takes some time before docker runs.
 		if runsOk("docker ps") {
 			break
 		}
-		time.Sleep(5 * time.Second)
+		sleep()
 	}
 }
 
@@ -39,4 +39,8 @@ func runsOk(command string) bool {
 		return true
 	}
 	return false
+}
+
+func sleep() {
+	time.Sleep(5 * time.Second)
 }
