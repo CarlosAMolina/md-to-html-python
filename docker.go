@@ -30,10 +30,7 @@ func stopContainer(container string) {
 
 func startDockerService() {
 	var hasBeenActivated = false
-	for {
-		if isServiceActive() {
-			break
-		}
+	for !isServiceActive() {
 		if !hasBeenActivated {
 			run("systemctl --user start docker")
 			hasBeenActivated = true
@@ -41,11 +38,8 @@ func startDockerService() {
 		}
 		sleep(5)
 	}
-	for {
+	for !runsOk("docker ps") {
 		// Although the docker daemon is active, on some systems it takes some time before docker runs.
-		if runsOk("docker ps") {
-			break
-		}
 		sleep(5)
 	}
 }
