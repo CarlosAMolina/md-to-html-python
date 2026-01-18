@@ -15,7 +15,7 @@ func removeVolume(volume string) {
 			run("docker volume rm " + volume)
 			hasBeenRemoved = true
 		}
-		sleep()
+		sleep(1)
 	}
 }
 
@@ -29,7 +29,7 @@ func stopContainer(container string) {
 			run("docker stop " + container)
 			hasBeenStopped = true
 		}
-		sleep()
+		sleep(1)
 	}
 }
 
@@ -44,14 +44,14 @@ func startDockerService() {
 			hasBeenActivated = true
 			continue
 		}
-		sleep()
+		sleep(5)
 	}
 	for {
 		// Although the docker daemon is active, on some systems it takes some time before docker runs.
 		if runsOk("docker ps") {
 			break
 		}
-		sleep()
+		sleep(5)
 	}
 }
 
@@ -59,8 +59,8 @@ func isServiceActive() bool {
 	return runsOk("systemctl --user is-active --quiet docker")
 }
 
-func sleep() {
-	time.Sleep(5 * time.Second)
+func sleep(seconds int) {
+	time.Sleep(time.Duration(seconds) * time.Second)
 }
 
 func isContainerRunning(container string) bool {
