@@ -26,6 +26,7 @@ func main() {
 			os.Exit(0)
 		case "e":
 			fmt.Println("Bye!")
+			os.Exit(0)
 		case "h":
 			showHelp()
 		default:
