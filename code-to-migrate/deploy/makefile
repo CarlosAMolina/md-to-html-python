@@ -14,9 +14,6 @@ DOCKER_VOLUME_NAME_PANDOC=pandoc
 MEDIA_CONTENT_PATHNAME=$(HOME)/Software/cmoli-media-content
 URL_NGINX_LOCALHOST=http://localhost:8080
 
-activate-docker-if-not-active:
-	/bin/bash activate-docker-service-if-not-active
-
 create-web-content:
 	/bin/bash remove-volumes \
 		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT) \
@@ -56,8 +53,7 @@ stop-containers:
 	make -f makefile-nginx \
 	    stop-if-running
 
-test: activate-docker-if-not-active \
-	stop-containers \
+test: stop-containers \
 	create-web-content \
 	create-web-server \
 	show-web
