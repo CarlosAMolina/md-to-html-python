@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+func pullDocker(image string) {
+	run("docker pull " + image)
+}
+
 func removeVolume(volume string) {
 	var hasBeenRemoved = false
 	for existsVolume(volume) {

@@ -2,11 +2,8 @@ DOCKERFILE=Dockerfile-create-pandoc-script-for-files
 DOCKER_CUSTOM_IMAGE_NAME=python-create-pandoc-script
 DOCKER_CONTAINER_NAME=$(DOCKER_CUSTOM_IMAGE_NAME)-container
 DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)
-DOCKER_VOLUME_NGINX_WEB_CONTENT=$(DOCKER_VOLUME_NGINX_WEB_CONTENT)
-DOCKER_VOLUME_PANDOC=$(DOCKER_VOLUME_PANDOC)
-
-pull-docker-image:
-	docker pull $(DOCKER_IMAGE_NAME)
+DOCKER_VOLUME_NGINX_WEB_CONTENT=nginx-web-content
+DOCKER_VOLUME_PANDOC=pandoc
 
 build-docker-image:
 	docker build \
@@ -40,11 +37,10 @@ wait-container-ends:
 	cd .. && /bin/bash wait-while-container-is-running \
 		$(DOCKER_CONTAINER_NAME)
 
-run: pull-docker-image build-docker-image create-docker-volumes copy-files-to-volumes run-container wait-container-ends
+run: build-docker-image create-docker-volumes copy-files-to-volumes run-container wait-container-ends
 
 connect:
 	docker exec -it $(DOCKER_CONTAINER_NAME) /bin/sh
 
 stop:
 	docker stop $(DOCKER_CONTAINER_NAME)
-

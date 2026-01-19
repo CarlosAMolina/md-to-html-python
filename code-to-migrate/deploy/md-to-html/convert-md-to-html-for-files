@@ -1,18 +1,12 @@
 #!/bin/bash
 
-docker_pandoc_image_name=$1
-docker_python_image_name=$2
-docker_volume_name_nginx_web_content=$3
-docker_volume_name_pandoc=$4
+docker_volume_name_nginx_web_content=nginx-web-content
+docker_volume_name_pandoc=pandoc
 
 echo "[DEBUG] Init create-pandoc-script-for-files"
 # This script is called out of the md-to-html folder, we need to `cd` to it.
 cd md-to-html
-make -f makefile-create-pandoc-script-for-files \
-	run \
-	DOCKER_IMAGE_NAME=${docker_python_image_name} \
-	DOCKER_VOLUME_NGINX_WEB_CONTENT=${docker_volume_name_nginx_web_content} \
-	DOCKER_VOLUME_PANDOC=${docker_volume_name_pandoc}
+make -f makefile-create-pandoc-script-for-files run
 cd ..
 
 volume_pandoc_pathname=$(/bin/bash get-docker-volume-pathname "${docker_volume_name_pandoc}")
@@ -34,7 +28,7 @@ echo "[DEBUG] Init makefile-convert-md-to-html-for-files"
 cd md-to-html
 make -f makefile-convert-md-to-html-for-files \
 	run \
-	DOCKER_IMAGE_NAME=${docker_pandoc_image_name} \
+	DOCKER_IMAGE_NAME=pandoc/minimal:2.17-alpine \
 	DOCKER_VOLUME_NGINX_WEB_CONTENT=${docker_volume_name_nginx_web_content} \
 	DOCKER_VOLUME_PANDOC=${docker_volume_name_pandoc}
 cd ..
