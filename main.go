@@ -46,20 +46,20 @@ func showHelp() {
 
 func testLocal() {
 	fmt.Println("Testing local")
-	pullCmoli()
-	pullProjects()
-	pullWiki()
+	pullGitCmoli()
+	pullGitProjects()
+	pullGitWiki()
 	startDockerService()
 	stopContainer("nginx-cmoli-container")
 	removeVolume("nginx-web-content")
 	removeVolume("pandoc")
 }
 
-func pullCmoli() {
+func pullGitCmoli() {
 	run("git pull origin $(git branch --show-current)")
 }
 
-func pullProjects() {
+func pullGitProjects() {
 	if exists("src/projects") {
 		run("rm -rf src/projects")
 	}
@@ -69,7 +69,7 @@ func pullProjects() {
 	run("rm -rf /tmp/checkIframe")
 }
 
-func pullWiki() {
+func pullGitWiki() {
 	if exists("src/wiki") {
 		run("rm -rf src/wiki")
 	}
