@@ -28,4 +28,7 @@ func runDockerPandoc() {
 		--mount type=volume,source=pandoc,target=/pandoc \
 		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
 		python-create-pandoc-script`)
+	for isContainerRunning("python-create-pandoc-script-container") {
+		sleep(3)
+	}
 }

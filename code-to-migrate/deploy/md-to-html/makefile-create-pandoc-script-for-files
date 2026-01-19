@@ -1,5 +1,0 @@
-run:  wait-container-ends
-
-wait-container-ends:
-	cd .. && /bin/bash wait-while-container-is-running \
-		python-create-pandoc-script-container

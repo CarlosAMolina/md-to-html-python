@@ -2,11 +2,8 @@
 
 container=$1
 
-echo "[DEBUG] Init wait while the container ${container} is running"
 while [ $(/bin/bash is-container-running ${container}) -eq 0 ]
 do
-  echo "[DEBUG] The container ${container} is running. Init wait a few seconds"
   sleep 5
 done
-echo "[DEBUG] The container ${container} is not running"
 

@@ -3,12 +3,7 @@
 docker_volume_name_nginx_web_content=nginx-web-content
 docker_volume_name_pandoc=pandoc
 
-echo "[DEBUG] Init create-pandoc-script-for-files"
-# This script is called out of the md-to-html folder, we need to `cd` to it.
-cd md-to-html
-make -f makefile-create-pandoc-script-for-files run
-cd ..
-
+# TODO continue here
 volume_pandoc_pathname=$(/bin/bash get-docker-volume-pathname "${docker_volume_name_pandoc}")
 script_pathname=${volume_pandoc_pathname}/run-on-files-convert-md-to-html
 
