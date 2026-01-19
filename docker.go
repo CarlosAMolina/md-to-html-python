@@ -1,9 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
+
+func getVolumePath(volume string) string {
+	command := fmt.Sprintf("docker volume inspect \"%s\" --format '{{.Mountpoint}}'", volume)
+	return string(run(command))
+}
 
 func createVolume(volume string) {
 	run("docker volume create " + volume)

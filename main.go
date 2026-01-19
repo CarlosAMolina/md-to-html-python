@@ -9,7 +9,7 @@ func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
 	// TODO rm below
-	createVolume("foo")
+	getVolumePath("foo")
 	os.Exit(0)
 	// TODO rm above
 	var choice string
