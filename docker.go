@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+func createVolume(volume string) {
+	run("docker volume create " + volume)
+}
+
 func pullDocker(image string) {
 	run("docker pull " + image)
 }

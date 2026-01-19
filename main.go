@@ -9,7 +9,7 @@ func main() {
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
 	// TODO rm below
-	buildDockerPandoc()
+	createVolume("foo")
 	os.Exit(0)
 	// TODO rm above
 	var choice string
@@ -58,6 +58,8 @@ func testLocal() {
 	// Create Pandoc script for files
 	pullDocker("python:3.8.15-alpine3.16")
 	buildDockerPandoc()
+	createVolume("nginx-web-content")
+	createVolume("pandoc")
 }
 
 func pullGitCmoli() {

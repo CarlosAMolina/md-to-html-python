@@ -1,10 +1,13 @@
 DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)
 
-run: create-docker-volumes copy-files-to-volumes run-container wait-container-ends
+run: copy-files-to-volumes run-container wait-container-ends
 
-create-docker-volumes:
-	docker volume create pandoc
-	docker volume create nginx-web-content
+
+# TODO the `md-to-html` folder must only convert content, the responsability for copying web content must be outside this folder.
+copy-files-to-volumes:
+	#sudo /bin/bash copy-files-to-docker-volumes pandoc nginx-web-content
+	cd .. && /bin/bash copy-files-to-docker-volumes nginx-web-content pandoc
+
 
 run-container:
 	docker run \
@@ -15,11 +18,6 @@ run-container:
 		--mount type=volume,source=pandoc,target=/pandoc \
 		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
 		python-create-pandoc-script
-
-# TODO the `md-to-html` folder must only convert content, the responsability for copying web content must be outside this folder.
-copy-files-to-volumes:
-	#sudo /bin/bash copy-files-to-docker-volumes pandoc nginx-web-content
-	cd .. && /bin/bash copy-files-to-docker-volumes nginx-web-content pandoc
 
 wait-container-ends:
 	cd .. && /bin/bash wait-while-container-is-running \
