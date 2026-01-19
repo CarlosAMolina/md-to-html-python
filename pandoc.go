@@ -10,3 +10,11 @@ func buildDockerPandoc() {
 	--build-arg volume_pandoc=pandoc \
 	.`)
 }
+
+func copyContentToVolumePandoc() {
+	volumePath := getVolumePath("pandoc")
+	run("cp -r md-to-html/create-pandoc-script-for-files " + volumePath)
+	run("cp -r md-to-html/pandoc-config " + volumePath)
+	run("cp md-to-html/convert-md-to-html " + volumePath)
+	run("cp md-to-html/run-create-pandoc-script-for-files " + volumePath)
+}

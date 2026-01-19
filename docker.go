@@ -8,7 +8,8 @@ import (
 
 func getVolumePath(volume string) string {
 	command := fmt.Sprintf("docker volume inspect \"%s\" --format '{{.Mountpoint}}'", volume)
-	return string(run(command))
+	result := string(run(command))
+	return strings.TrimSuffix(result, "\n")
 }
 
 func createVolume(volume string) {

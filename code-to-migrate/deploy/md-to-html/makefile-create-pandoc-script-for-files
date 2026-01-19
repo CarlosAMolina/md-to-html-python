@@ -2,15 +2,6 @@ run: copy-files-to-volumes run-container wait-container-ends
 
 # TODO the `md-to-html` folder must only convert content, the responsability for copying web content must be outside this folder.
 copy-files-to-volumes:
-	cd ..
-	# pandoc
-    volume_pandoc_pathname=$(/bin/bash get-docker-volume-pathname pandoc)
-    cd md-to-html
-    cp -r pandoc-config $volume_pandoc_pathname
-    cp -r create-pandoc-script-for-files $volume_pandoc_pathname
-    cp convert-md-to-html $volume_pandoc_pathname
-    cp run-create-pandoc-script-for-files $volume_pandoc_pathname
-    cd -
     # Web content
     volume_web_content_pathname=$(/bin/bash get-docker-volume-pathname nginx-web-content)
     cp -r ../src/* $volume_web_content_pathname

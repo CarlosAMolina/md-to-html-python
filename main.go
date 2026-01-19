@@ -6,12 +6,12 @@ import (
 )
 
 func main() {
-	fmt.Println("Welcome to the cmoli.es deployment CLI!")
-	showHelp()
 	// TODO rm below
-	getVolumePath("foo")
+	copyContentToVolumePandoc()
 	os.Exit(0)
 	// TODO rm above
+	fmt.Println("Welcome to the cmoli.es deployment CLI!")
+	showHelp()
 	var choice string
 	for {
 		fmt.Print(">> ")
@@ -60,6 +60,7 @@ func testLocal() {
 	buildDockerPandoc()
 	createVolume("nginx-web-content")
 	createVolume("pandoc")
+	copyContentToVolumePandoc()
 }
 
 func pullGitCmoli() {
