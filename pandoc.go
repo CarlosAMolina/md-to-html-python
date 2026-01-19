@@ -18,3 +18,14 @@ func copyContentToVolumePandoc() {
 	run("cp md-to-html/convert-md-to-html " + volumePath)
 	run("cp md-to-html/run-create-pandoc-script-for-files " + volumePath)
 }
+
+func runDockerPandoc() {
+	run(`docker run \
+		-it \
+		--rm \
+		-d \
+		--name python-create-pandoc-script-container \
+		--mount type=volume,source=pandoc,target=/pandoc \
+		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
+		python-create-pandoc-script`)
+}

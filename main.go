@@ -7,7 +7,13 @@ import (
 
 func main() {
 	// TODO rm below
+	removeVolume("nginx-web-content")
+	removeVolume("pandoc")
+	createVolume("nginx-web-content")
+	createVolume("pandoc")
 	copyContentToVolumeNginx()
+	copyContentToVolumePandoc()
+	runDockerPandoc()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -62,6 +68,7 @@ func testLocal() {
 	createVolume("pandoc")
 	copyContentToVolumeNginx()
 	copyContentToVolumePandoc()
+	runDockerPandoc()
 }
 
 func pullGitCmoli() {

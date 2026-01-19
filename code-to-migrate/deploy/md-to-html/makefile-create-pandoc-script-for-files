@@ -1,14 +1,4 @@
-run: TODO-CONTINUE-HERE run-container wait-container-ends
-
-run-container:
-	docker run \
-		-it \
-		--rm \
-		-d \
-		--name python-create-pandoc-script-container \
-		--mount type=volume,source=pandoc,target=/pandoc \
-		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
-		python-create-pandoc-script
+run:  wait-container-ends
 
 wait-container-ends:
 	cd .. && /bin/bash wait-while-container-is-running \
