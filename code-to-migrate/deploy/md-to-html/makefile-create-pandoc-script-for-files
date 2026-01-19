@@ -22,9 +22,3 @@ run-container:
 wait-container-ends:
 	cd .. && /bin/bash wait-while-container-is-running \
 		python-create-pandoc-script-container
-
-connect:
-	docker exec -it python-create-pandoc-script-container /bin/sh
-
-stop:
-	docker stop python-create-pandoc-script-container

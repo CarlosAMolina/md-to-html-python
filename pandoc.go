@@ -1,5 +1,6 @@
 package main
 
+// Connect: docker exec -it python-create-pandoc-script-container /bin/sh
 func buildDockerPandoc() {
 	run(`docker build \
 	-t python-create-pandoc-script \
