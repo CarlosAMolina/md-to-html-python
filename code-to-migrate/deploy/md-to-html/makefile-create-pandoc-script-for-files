@@ -1,10 +1,4 @@
-run: copy-files-to-volumes run-container wait-container-ends
-
-# TODO the `md-to-html` folder must only convert content, the responsability for copying web content must be outside this folder.
-copy-files-to-volumes:
-    # Web content
-    volume_web_content_pathname=$(/bin/bash get-docker-volume-pathname nginx-web-content)
-    cp -r ../src/* $volume_web_content_pathname
+run: TODO-CONTINUE-HERE run-container wait-container-ends
 
 run-container:
 	docker run \
