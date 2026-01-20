@@ -1,7 +1,6 @@
 ROOT_PATHNAME=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 MAIN_PROJECT_ROOT_PATHNAME=$(ROOT_PATHNAME)/..
 SCRIPT_CLONE_TOOLS_PATHNAME=$(ROOT_PATHNAME)/clone-tools-to-docker-volume
-SCRIPT_MODIFY_HTML_FILES=$(ROOT_PATHNAME)/modify-html
 SCRIPT_OPEN_HTML_PATHNAME=$(ROOT_PATHNAME)/open-html
 SCRIPT_SET_MEDIA_CONTENT=$(ROOT_PATHNAME)/set-media-content-to-docker-volume
 DOCKER_NGINX_IMAGE_NAME=nginx:latest
@@ -10,9 +9,8 @@ DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT=nginx-web-content
 MEDIA_CONTENT_PATHNAME=$(HOME)/Software/cmoli-media-content
 URL_NGINX_LOCALHOST=http://localhost:8080
 
+# TODO continue here
 create-web-content:
-	/bin/bash $(SCRIPT_MODIFY_HTML_FILES) \
-		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT)
 	/bin/bash $(SCRIPT_SET_MEDIA_CONTENT) \
 		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT) \
 		$(MEDIA_CONTENT_PATHNAME)

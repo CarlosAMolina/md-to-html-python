@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// TODO rm below
-	runDockerPandoc()
+	modifyHtml()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -66,6 +66,7 @@ func testLocal() {
 	pullDockerPandoc()
 	buildDockerImagePandoc()
 	runDockerPandoc()
+	modifyHtml()
 }
 
 func pullGitCmoli() {
