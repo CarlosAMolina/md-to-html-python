@@ -1,17 +1,16 @@
-DOCKERFILE=Dockerfile-convert-md-to-html-for-files
+DOCKERFILE=md-to-thml/Dockerfile-convert-md-to-html-for-files
 DOCKER_CUSTOM_IMAGE_NAME=pandoc-convert-md-to-html
 DOCKER_CONTAINER_NAME=$(DOCKER_CUSTOM_IMAGE_NAME)-container
-DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)
-DOCKER_VOLUME_NGINX_WEB_CONTENT=$(DOCKER_VOLUME_NGINX_WEB_CONTENT)
-DOCKER_VOLUME_PANDOC=$(DOCKER_VOLUME_PANDOC)
+DOCKER_VOLUME_NGINX_WEB_CONTENT=nginx-web-content
+DOCKER_VOLUME_PANDOC=pandoc
 
 pull-docker-image:
-	docker pull $(DOCKER_IMAGE_NAME)
+	docker pull pandoc/minimal:2.17-alpine
 
 build-docker-image:
 	docker build \
 		-t $(DOCKER_CUSTOM_IMAGE_NAME) \
-		--build-arg docker_image=$(DOCKER_IMAGE_NAME) \
+		--build-arg docker_image=pandoc/minimal:2.17-alpine \
 		--build-arg volume_pandoc=$(DOCKER_VOLUME_PANDOC) \
 		-f $(DOCKERFILE) \
 		.
@@ -27,7 +26,7 @@ run-container:
 		$(DOCKER_CUSTOM_IMAGE_NAME)
 
 wait-container-ends:
-	cd .. && /bin/bash wait-while-container-is-running $(DOCKER_CONTAINER_NAME)
+	/bin/bash md-to-html/wait-while-container-is-running $(DOCKER_CONTAINER_NAME)
 
 run: pull-docker-image build-docker-image run-container wait-container-ends
 

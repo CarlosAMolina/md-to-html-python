@@ -31,4 +31,9 @@ func runDockerPandoc() {
 	for isContainerRunning("python-create-pandoc-script-container") {
 		sleep(3)
 	}
+	scriptPath := getVolumePath("pandoc") + "/run-on-files-convert-md-to-html"
+	if !exists(scriptPath) {
+		panic("The pandoc script does not exist: " + scriptPath)
+	}
+	run("chmod +x " + scriptPath)
 }
