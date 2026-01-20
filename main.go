@@ -62,7 +62,7 @@ func testLocal() {
 	createVolume("pandoc")
 	copyContentToVolumeNginx()
 	copyContentToVolumePandoc()
-	runDockerPandoc()
+	runDockerCreatePandocScript()
 	run("make -f md-to-html/makefile-convert-md-to-html-for-files run")
 }
 
