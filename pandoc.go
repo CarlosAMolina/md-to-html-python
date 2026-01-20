@@ -1,7 +1,7 @@
 package main
 
 // Connect: docker exec -it python-create-pandoc-script-container /bin/sh
-func buildDockerPandoc() {
+func buildDockerCreatePandocScript() {
 	run(`docker build \
 	-t python-create-pandoc-script \
 	-f docker/Dockerfile-create-pandoc-script-for-files \
@@ -11,12 +11,25 @@ func buildDockerPandoc() {
 	.`)
 }
 
+func buildDockerImagePandoc() {
+	run(`docker build \
+	-t pandoc-convert-md-to-html \
+	--build-arg docker_image=pandoc/minimal:2.17-alpine \
+	--build-arg volume_pandoc=pandoc \
+	-f md-to-html/Dockerfile-convert-md-to-html-for-files \
+	.`)
+}
+
 func copyContentToVolumePandoc() {
 	volumePath := getVolumePath("pandoc")
 	run("cp -r md-to-html/create-pandoc-script-for-files " + volumePath)
 	run("cp -r md-to-html/pandoc-config " + volumePath)
 	run("cp md-to-html/convert-md-to-html " + volumePath)
 	run("cp md-to-html/run-create-pandoc-script-for-files " + volumePath)
+}
+
+func pullDockerPandoc() {
+	pullDocker("pandoc/minimal:2.17-alpine")
 }
 
 func runDockerCreatePandocScript() {
@@ -36,4 +49,18 @@ func runDockerCreatePandocScript() {
 		panic("The pandoc script does not exist: " + scriptPath)
 	}
 	run("chmod +x " + scriptPath)
+}
+
+func runDockerPandoc() {
+	run(`docker run \
+		-it \
+		--rm \
+		-d \
+		--name pandoc-convert-md-to-html-container \
+		--mount type=volume,source=pandoc,target=/pandoc \
+		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
+		pandoc-convert-md-to-html`)
+	for isContainerRunning("pandoc-convert-md-to-html-container") {
+		sleep(2)
+	}
 }

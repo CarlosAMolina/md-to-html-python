@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// TODO rm below
-	run("make -f md-to-html/makefile-convert-md-to-html-for-files run")
+	runDockerPandoc()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -57,13 +57,15 @@ func testLocal() {
 	removeVolume("pandoc")
 	// Create Pandoc script for files
 	pullDocker("python:3.8.15-alpine3.16")
-	buildDockerPandoc()
+	buildDockerCreatePandocScript()
 	createVolume("nginx-web-content")
 	createVolume("pandoc")
 	copyContentToVolumeNginx()
 	copyContentToVolumePandoc()
 	runDockerCreatePandocScript()
-	run("make -f md-to-html/makefile-convert-md-to-html-for-files run")
+	pullDockerPandoc()
+	buildDockerImagePandoc()
+	runDockerPandoc()
 }
 
 func pullGitCmoli() {
