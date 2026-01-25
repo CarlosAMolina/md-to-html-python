@@ -9,11 +9,8 @@ DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT=nginx-web-content
 MEDIA_CONTENT_PATHNAME=$(HOME)/Software/cmoli-media-content
 URL_NGINX_LOCALHOST=http://localhost:8080
 
-# TODO continue here
 create-web-content:
-	/bin/bash $(SCRIPT_SET_MEDIA_CONTENT) \
-		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT) \
-		$(MEDIA_CONTENT_PATHNAME)
+	# TODO continue here
 	/bin/bash $(SCRIPT_CLONE_TOOLS_PATHNAME) \
 		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT)
 

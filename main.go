@@ -7,7 +7,10 @@ import (
 
 func main() {
 	// TODO rm below
-	modifyHtml()
+	startDockerService()
+	removeVolume("nginx-web-content")
+	createVolume("nginx-web-content")
+	copyMediaToDockerVolume()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -67,6 +70,7 @@ func testLocal() {
 	buildDockerImagePandoc()
 	runDockerPandoc()
 	modifyHtml()
+	copyMediaToDockerVolume()
 }
 
 func pullGitCmoli() {
@@ -98,4 +102,9 @@ func exists(dirPath string) bool {
 	} else {
 		return true
 	}
+}
+
+func copyMediaToDockerVolume() {
+	path := getVolumePath("nginx-web-content")
+	run("cp -r ~/Software/cmoli-media-content/* " + path)
 }
