@@ -40,6 +40,11 @@ func runDockerNginx() {
 		fmt.Println("Waiting for Nginx to be ready")
 		sleep(1)
 	}
+	filePath := getVolumePath("nginx-web-content") + "/index.html"
+	for !exists(filePath) {
+		fmt.Println("The file " + filePath + " does not exist. Retrying again")
+		sleep(2)
+	}
 }
 
 func isNginxListening() bool {
@@ -49,4 +54,8 @@ func isNginxListening() bool {
 	}
 	resp.Body.Close()
 	return true
+}
+
+func openWeb() {
+	run("firefox http://localhost:8080")
 }

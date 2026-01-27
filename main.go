@@ -13,7 +13,8 @@ func main() {
 	//copyContentToVolumeNginx()
 	//pullDockerNginx()
 	//buildDockerImageNginx()
-	runDockerNginx()
+	//runDockerNginx()
+	openWeb()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -79,6 +80,7 @@ func testLocal() {
 	pullDockerNginx()
 	buildDockerImageNginx()
 	runDockerNginx()
+	openWeb()
 }
 
 func pullGitCmoli() {
