@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"net/http"
+)
+
 // TODO the `md-to-html` folder must only convert content, the responsability for copying web content must be outside this folder.
 func copyContentToVolumeNginx() {
 	volumePath := getVolumePath("nginx-web-content")
@@ -31,4 +36,17 @@ func runDockerNginx() {
 		--mount type=volume,source=nginx-logs,target=/var/log/nginx \
 		--mount type=volume,source=nginx-web-content,target=/usr/share/nginx/html,readonly \
 		nginx-cmoli`)
+	for !isNginxListening() {
+		fmt.Println("Waiting for Nginx to be ready")
+		sleep(1)
+	}
+}
+
+func isNginxListening() bool {
+	resp, err := http.Get("http://localhost:8080")
+	if err != nil {
+		return false
+	}
+	resp.Body.Close()
+	return true
 }

@@ -1,16 +1,12 @@
 ROOT_PATHNAME=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # TODO contine here
-create-web-server:
-	make -f makefile-nginx run
-
 show-web:
 	/bin/bash $(ROOT_PATHNAME)/open-html \
 		http://localhost:8080 \
 		nginx-web-content
 
-test: create-web-server \
-	show-web
+test:	show-web
 
 deploy: assert-required-file-updated-and-update-branch \
 	clone-projects-content \

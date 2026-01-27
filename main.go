@@ -7,12 +7,12 @@ import (
 
 func main() {
 	// TODO rm below
-	startDockerService()
+	//startDockerService()
 	//removeVolume("nginx-web-content")
 	//createVolume("nginx-web-content")
 	//copyContentToVolumeNginx()
 	//pullDockerNginx()
-	buildDockerImageNginx()
+	//buildDockerImageNginx()
 	runDockerNginx()
 	os.Exit(0)
 	// TODO rm above
@@ -58,6 +58,7 @@ func testLocal() {
 	pullGitProjects()
 	pullGitWiki()
 	startDockerService()
+	// TODO add a menu option to stop the testing web container.
 	stopContainer("nginx-cmoli-container")
 	removeVolume("nginx-web-content")
 	removeVolume("pandoc")
