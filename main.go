@@ -11,7 +11,9 @@ func main() {
 	removeVolume("nginx-web-content")
 	createVolume("nginx-web-content")
 	copyContentToVolumeNginx()
-	pullGitTools()
+	//pullDockerNginx()
+	buildDockerImageNginx()
+	runDockerNginx()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -73,6 +75,9 @@ func testLocal() {
 	modifyHtml()
 	copyMediaToDockerVolume()
 	pullGitTools()
+	pullDockerNginx()
+	buildDockerImageNginx()
+	runDockerNginx()
 }
 
 func pullGitCmoli() {
