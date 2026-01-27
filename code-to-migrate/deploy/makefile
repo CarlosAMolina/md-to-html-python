@@ -1,36 +1,26 @@
 ROOT_PATHNAME=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-MAIN_PROJECT_ROOT_PATHNAME=$(ROOT_PATHNAME)/..
-SCRIPT_CLONE_TOOLS_PATHNAME=$(ROOT_PATHNAME)/clone-tools-to-docker-volume
-SCRIPT_OPEN_HTML_PATHNAME=$(ROOT_PATHNAME)/open-html
-SCRIPT_SET_MEDIA_CONTENT=$(ROOT_PATHNAME)/set-media-content-to-docker-volume
-DOCKER_NGINX_IMAGE_NAME=nginx:latest
-DOCKER_VOLUME_NAME_NGINX_LOGS=nginx-logs
-DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT=nginx-web-content
-MEDIA_CONTENT_PATHNAME=$(HOME)/Software/cmoli-media-content
-URL_NGINX_LOCALHOST=http://localhost:8080
 
 create-web-content:
-	# TODO continue here
-	/bin/bash $(SCRIPT_CLONE_TOOLS_PATHNAME) \
-		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT)
+	/bin/bash $(ROOT_PATHNAME)/clone-tools-to-docker-volume \
+		nginx-web-content
 
 create-web-server:
 	make -f makefile-nginx \
 		run \
-		DOCKER_IMAGE_NAME=$(DOCKER_NGINX_IMAGE_NAME) \
-		DOCKER_VOLUME_NGINX_WEB_CONTENT=$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT) \
-		DOCKER_VOLUME_NGINX_LOGS=$(DOCKER_VOLUME_NAME_NGINX_LOGS) \
-		URL_NGINX_LOCALHOST=$(URL_NGINX_LOCALHOST)
+		DOCKER_IMAGE_NAME=nginx:latest \
+		DOCKER_VOLUME_NGINX_WEB_CONTENT=nginx-web-content \
+		DOCKER_VOLUME_NGINX_LOGS=nginx-logs \
+		URL_NGINX_LOCALHOST=http://localhost:8080
 
 show-web:
-	/bin/bash $(SCRIPT_OPEN_HTML_PATHNAME) \
-		$(URL_NGINX_LOCALHOST) \
-		$(DOCKER_VOLUME_NAME_NGINX_WEB_CONTENT)
+	/bin/bash $(ROOT_PATHNAME)/open-html \
+		http://localhost:8080 \
+		nginx-web-content
 
 show-logs:
 	make -f makefile-nginx \
 		logs \
-		DOCKER_VOLUME_NGINX_LOGS=$(DOCKER_VOLUME_NAME_NGINX_LOGS)
+		DOCKER_VOLUME_NGINX_LOGS=nginx-logs
 
 test: create-web-content \
 	create-web-server \
