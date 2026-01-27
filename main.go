@@ -6,17 +6,6 @@ import (
 )
 
 func main() {
-	// TODO rm below
-	//startDockerService()
-	//removeVolume("nginx-web-content")
-	//createVolume("nginx-web-content")
-	//copyContentToVolumeNginx()
-	//pullDockerNginx()
-	//buildDockerImageNginx()
-	//runDockerNginx()
-	openWeb()
-	os.Exit(0)
-	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
 	var choice string
