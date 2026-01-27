@@ -14,7 +14,3 @@ deploy: assert-required-file-updated-and-update-branch \
 	activate-docker-if-not-active \
 	stop-containers \
 	create-web-content
-
-export-pandoc-template-html:
-	# https://pandoc.org/MANUAL.html#option--print-default-template
-	pandoc -D html > /tmp/template-default.html

@@ -1,5 +1,8 @@
 package main
 
+// To export pandoc template html: pandoc -D html > /tmp/template-default.html
+// https://pandoc.org/MANUAL.html#option--print-default-template
+
 // Connect: docker exec -it python-create-pandoc-script-container /bin/sh
 func buildDockerCreatePandocScript() {
 	run(`docker build \
