@@ -1,9 +1,6 @@
 ROOT_PATHNAME=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-create-web-content:
-	/bin/bash $(ROOT_PATHNAME)/clone-tools-to-docker-volume \
-		nginx-web-content
-
+# TODO contine here
 create-web-server:
 	make -f makefile-nginx \
 		run \
@@ -22,8 +19,7 @@ show-logs:
 		logs \
 		DOCKER_VOLUME_NGINX_LOGS=nginx-logs
 
-test: create-web-content \
-	create-web-server \
+test: create-web-server \
 	show-web
 
 deploy: assert-required-file-updated-and-update-branch \

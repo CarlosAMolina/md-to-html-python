@@ -10,7 +10,8 @@ func main() {
 	startDockerService()
 	removeVolume("nginx-web-content")
 	createVolume("nginx-web-content")
-	copyMediaToDockerVolume()
+	copyContentToVolumeNginx()
+	pullGitTools()
 	os.Exit(0)
 	// TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
@@ -71,6 +72,7 @@ func testLocal() {
 	runDockerPandoc()
 	modifyHtml()
 	copyMediaToDockerVolume()
+	pullGitTools()
 }
 
 func pullGitCmoli() {
@@ -94,6 +96,21 @@ func pullGitWiki() {
 	run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/wiki /tmp/wiki")
 	run("mv /tmp/wiki/src src/wiki")
 	run("rm -rf /tmp/wiki")
+}
+
+func pullGitTools() {
+	volumePath := getVolumePath("nginx-web-content") + "/tools/"
+	projectNames := [3]string{"open-urls", "job-check-lambda-name", "job-modify-issue-name"}
+	for i := range len(projectNames) {
+		projectName := projectNames[i]
+		projectPath := volumePath + projectName
+		if exists(projectPath) {
+			run("rm -rf " + projectPath)
+		}
+		run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/" + projectName)
+		run("rm -rf " + projectName + "/.git")
+		run("mv " + projectName + " " + volumePath)
+	}
 }
 
 func exists(dirPath string) bool {
