@@ -1,6 +1,0 @@
-#!/bin/bash
-
-volume_name=$1
-
-volume_pathname=$(docker volume inspect "${volume_name}" --format '{{.Mountpoint}}')
-echo $volume_pathname

@@ -15,6 +15,13 @@ func main() {
 		switch choice {
 		case "1":
 			fmt.Println("Starting full deployment")
+			// TODO:
+			//assert-required-file-updated-and-update-branch \
+			//clone-projects-content \
+			//clone-wiki \
+			//activate-docker-if-not-active \
+			//stop-containers \
+			//create-web-content
 			os.Exit(0)
 		case "2":
 			fmt.Println("Generating web content")
