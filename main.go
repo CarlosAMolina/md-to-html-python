@@ -8,9 +8,9 @@ import (
 func main() {
 	// TODO rm below
 	startDockerService()
-	removeVolume("nginx-web-content")
-	createVolume("nginx-web-content")
-	copyContentToVolumeNginx()
+	//removeVolume("nginx-web-content")
+	//createVolume("nginx-web-content")
+	//copyContentToVolumeNginx()
 	//pullDockerNginx()
 	buildDockerImageNginx()
 	runDockerNginx()

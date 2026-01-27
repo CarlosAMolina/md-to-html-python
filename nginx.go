@@ -6,14 +6,16 @@ func copyContentToVolumeNginx() {
 	run("cp -r ../src/* $volume_web_content_pathname " + volumePath)
 }
 
+// TODO add to all dockers: if imageExsit, not download
 func pullDockerNginx() {
 	pullDocker("nginx:latest")
 }
 
+// TODO add to all dockers: if imageExsit, not build
 func buildDockerImageNginx() {
 	run(`docker build \
 		-t nginx-cmoli \
-		-f Dockerfile-nginx \
+		-f docker/Dockerfile-nginx \
 		--build-arg docker_image=nginx:latest \
 	.`)
 }
