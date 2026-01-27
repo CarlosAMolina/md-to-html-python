@@ -1,5 +1,5 @@
-compile:
-	go build -o cmoli-es-deploy main.go
+build:
+	go build -o cmoli-es-deploy .
 
 dependencies:
 	go mod tidy
