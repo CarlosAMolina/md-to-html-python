@@ -45,12 +45,16 @@ func buildDockerImageNginx() {
 		return
 	}
 	command := `docker build \
-		-t {image} \
-		-f docker/Dockerfile-nginx \
-		--build-arg docker_image=nginx:latest \
+	-t {image} \
+	-f {dockerfile}\
+	--build-arg docker_image=nginx:latest \
 	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	command = strings.ReplaceAll(command, "{buildDir}", filepath.Join(getPathSoftware(), "cmoli.es-deploy"))
+	buildDir := filepath.Join(getPathSoftware(), "cmoli.es-deploy")
+	// Fixed builDir to not use random value if the executable runs in a differente directory.
+	command = strings.ReplaceAll(command, "{buildDir}", buildDir)
+	dockerfile := filepath.Join(buildDir, "docker/Dockerfile-nginx")
+	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
 	run(command)
 }
 

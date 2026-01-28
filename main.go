@@ -9,7 +9,7 @@ import (
 
 func main() {
 	testLocal()
-	os.Exit(0)  // TODO rm above
+	os.Exit(0) // TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
 	var choice string

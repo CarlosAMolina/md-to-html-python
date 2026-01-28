@@ -18,13 +18,17 @@ func buildDockerCreatePandocScript() {
 	}
 	command := `docker build \
 	-t {image} \
-	-f docker/Dockerfile-create-pandoc-script-for-files \
+	-f {dockerfile} \
 	--build-arg docker_image=python:3.8.15-alpine3.16 \
 	--build-arg volume_nginx_web_content=nginx-web-content \
 	--build-arg volume_pandoc=pandoc \
 	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	command = strings.ReplaceAll(command, "{buildDir}", filepath.Join(getPathSoftware(), "cmoli.es-deploy"))
+	buildDir := filepath.Join(getPathSoftware(), "cmoli.es-deploy")
+	// Fixed builDir to not use random value if the executable runs in a differente directory.
+	command = strings.ReplaceAll(command, "{buildDir}", buildDir)
+	dockerfile := filepath.Join(buildDir, "docker/Dockerfile-create-pandoc-script-for-files")
+	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
 	run(command)
 }
 
@@ -36,12 +40,16 @@ func buildDockerImagePandoc() {
 	}
 	command := `docker build \
 	-t {image} \
-	-f md-to-html/Dockerfile-convert-md-to-html-for-files \
+	-f {dockerfile} \
 	--build-arg docker_image=pandoc/minimal:2.17-alpine \
 	--build-arg volume_pandoc=pandoc \
 	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	command = strings.ReplaceAll(command, "{buildDir}", filepath.Join(getPathSoftware(), "cmoli.es-deploy"))
+	buildDir := filepath.Join(getPathSoftware(), "cmoli.es-deploy")
+	// Fixed builDir to not use random value if the executable runs in a differente directory.
+	command = strings.ReplaceAll(command, "{buildDir}", buildDir)
+	dockerfile := filepath.Join(buildDir, "md-to-html/Dockerfile-convert-md-to-html-for-files")
+	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
 	run(command)
 }
 
