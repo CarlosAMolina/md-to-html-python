@@ -28,9 +28,6 @@ func main() {
 			//create-web-content
 			os.Exit(0)
 		case "2":
-			fmt.Println("Generating web content")
-			os.Exit(0)
-		case "3":
 			testLocal()
 			os.Exit(0)
 		case "e":
@@ -46,9 +43,8 @@ func main() {
 
 func showHelp() {
 	fmt.Println("Please select an option:")
-	fmt.Println("1. Full deployment. Run all steps")
-	fmt.Println("2. Generate web content. Convert Markdown to HTML")
-	fmt.Println("3. Testing local")
+	fmt.Println("1. Deploy")
+	fmt.Println("2. Testing local")
 	fmt.Println("e. Exit")
 	fmt.Println("h. Show help")
 }
