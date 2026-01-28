@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
+	"strings"
 )
 
 // TODO the `md-to-html` folder must only convert content, the responsability for copying web content must be outside this folder.
@@ -38,18 +39,23 @@ func pullDockerNginx() {
 }
 
 func buildDockerImageNginx() {
-	if existsImage("nginx-cmoli") {
-		fmt.Println("No build is required: nginx-cmoli")
+	image := "nginx-cmoli"
+	if existsImage(image) {
+		fmt.Println("No build is required: " + image)
 		return
 	}
-	run(`docker build \
-		-t nginx-cmoli \
-		-f docker/Dockerfile-nginx \
+	dockerfile := "docker/Dockerfile-nginx"
+	command := `docker build \
+		-t {image} \
+		-f {dockerfile} \
 		--build-arg docker_image=nginx:latest \
-	.`)
+	.`
+	command = strings.ReplaceAll(command, "{image}", image)
+	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
+	run(command)
 }
 
-// show logs: tail -f $(path of volume ngingx-logs)/access.log
+// show logs: tail -f $(path of volume nginx-logs)/access.log
 func runDockerNginx() {
 	run(`docker run \
 		-it \
