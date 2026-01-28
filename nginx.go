@@ -44,14 +44,14 @@ func buildDockerImageNginx() {
 		fmt.Println("No build is required: " + image)
 		return
 	}
-	dockerfile := "docker/Dockerfile-nginx"
 	command := `docker build \
 		-t {image} \
-		-f {dockerfile} \
+		-f docker/Dockerfile-nginx \
 		--build-arg docker_image=nginx:latest \
 	.`
 	command = strings.ReplaceAll(command, "{image}", image)
-	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
+	// The Dockerfile executes COPY actions, we have to `cd` to its folder.
+	command = "cd " + filepath.Join(getPathSoftware(), "cmoli.es-deploy") + " && " + command
 	run(command)
 }
 

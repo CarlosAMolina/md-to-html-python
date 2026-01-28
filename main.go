@@ -56,6 +56,7 @@ func showHelp() {
 func testLocal() {
 	fmt.Println("Testing local")
 	pullGitRepo("cmoli.es")
+	pullGitRepo("cmoli.es-deploy")
 	pullGitRepo("checkIframe")
 	pullGitRepo("wiki")
 	pullGitTools()

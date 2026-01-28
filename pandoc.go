@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 // To export pandoc template html: pandoc -D html > /tmp/template-default.html
@@ -10,34 +11,44 @@ import (
 
 // Connect: docker exec -it python-create-pandoc-script-container /bin/sh
 func buildDockerCreatePandocScript() {
-	if existsImage("python-create-pandoc-script") {
-		fmt.Println("No build is required: python-create-pandoc-script")
+	image := "python-create-pandoc-script"
+	if existsImage(image) {
+		fmt.Println("No build is required: " + image)
 		return
 	}
-	run(`docker build \
-	-t python-create-pandoc-script \
-	-f docker/Dockerfile-create-pandoc-script-for-files \
+	command := `docker build \
+	-t {image} \
+	-f {dockerfile} \
 	--build-arg docker_image=python:3.8.15-alpine3.16 \
 	--build-arg volume_nginx_web_content=nginx-web-content \
 	--build-arg volume_pandoc=pandoc \
-	.`)
+	.`
+	command = strings.ReplaceAll(command, "{image}", image)
+	dockerfile := filepath.Join(getPathSoftware(), "cmoli.es-deploy", "docker", "Dockerfile-create-pandoc-script-for-files")
+	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
+	run(command)
 }
 
 func buildDockerImagePandoc() {
-	if existsImage("pandoc-convert-md-to-html") {
-		fmt.Println("No build is required: pandoc-convert-md-to-html")
+	image := "pandoc-convert-md-to-html"
+	if existsImage(image) {
+		fmt.Println("No build is required: " + image)
 		return
 	}
-	run(`docker build \
-	-t pandoc-convert-md-to-html \
+	command := `docker build \
+	-t {image} \
+	-f {dockerfile} \
 	--build-arg docker_image=pandoc/minimal:2.17-alpine \
 	--build-arg volume_pandoc=pandoc \
-	-f md-to-html/Dockerfile-convert-md-to-html-for-files \
-	.`)
+	.`
+	command = strings.ReplaceAll(command, "{image}", image)
+	dockerfile := filepath.Join(getPathSoftware(), "cmoli.es-deploy", "md-to-html/Dockerfile-convert-md-to-html-for-files")
+	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
+	run(command)
 }
 
 func copyContentToVolumePandoc() {
-	mdPath := filepath.Join(getPathSoftware(), "cmoli.es", "deploy", "md-to-html")
+	mdPath := filepath.Join(getPathSoftware(), "cmoli.es-deploy", "md-to-html")
 	volumePath := getVolumePath("pandoc")
 	run("cd " + mdPath + " && cp -r create-pandoc-script-for-files " + volumePath)
 	run("cd " + mdPath + " && cp -r pandoc-config " + volumePath)
