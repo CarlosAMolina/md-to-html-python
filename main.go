@@ -3,9 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/user"
+	"path/filepath"
 )
 
 func main() {
+	testLocal()
+	os.Exit(0)  // TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
 	var choice string
@@ -51,9 +55,10 @@ func showHelp() {
 
 func testLocal() {
 	fmt.Println("Testing local")
-	pullGitCmoli()
-	pullGitProjects()
-	pullGitWiki()
+	pullGitRepo("cmoli.es")
+	pullGitRepo("checkIframe")
+	pullGitRepo("wiki")
+	pullGitTools()
 	startDockerService()
 	// TODO add a menu option to stop the testing web container.
 	stopContainer("nginx-cmoli-container")
@@ -72,48 +77,34 @@ func testLocal() {
 	runDockerPandoc()
 	modifyHtml()
 	copyMediaToDockerVolume()
-	pullGitTools()
 	pullDockerNginx()
 	buildDockerImageNginx()
 	runDockerNginx()
 	openWeb()
 }
 
-func pullGitCmoli() {
-	run("git pull origin $(git branch --show-current)")
+func pullGitRepo(repo string) {
+	repoPath := filepath.Join(getPathSoftware(), repo)
+	if exists(repoPath) {
+		run("cd " + repoPath + " && git pull origin $(git branch --show-current)")
+	} else {
+		run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/" + repo + " " + repoPath)
+	}
 }
 
-func pullGitProjects() {
-	if exists("src/projects") {
-		run("rm -rf src/projects")
+func getPathSoftware() string {
+	usr, err := user.Current()
+	if err != nil {
+		panic(err)
 	}
-	run("mkdir src/projects")
-	run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/checkIframe /tmp/checkIframe")
-	run("mv /tmp/checkIframe/docs src/projects/check-iframe")
-	run("rm -rf /tmp/checkIframe")
-}
-
-func pullGitWiki() {
-	if exists("src/wiki") {
-		run("rm -rf src/wiki")
-	}
-	run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/wiki /tmp/wiki")
-	run("mv /tmp/wiki/src src/wiki")
-	run("rm -rf /tmp/wiki")
+	return filepath.Join(usr.HomeDir, "Software")
 }
 
 func pullGitTools() {
-	volumePath := getVolumePath("nginx-web-content") + "/tools/"
-	projectNames := [3]string{"open-urls", "job-check-lambda-name", "job-modify-issue-name"}
-	for i := range len(projectNames) {
-		projectName := projectNames[i]
-		projectPath := volumePath + projectName
-		if exists(projectPath) {
-			run("rm -rf " + projectPath)
-		}
-		run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/" + projectName)
-		run("rm -rf " + projectName + "/.git")
-		run("mv " + projectName + " " + volumePath)
+	repoNames := [3]string{"open-urls", "job-check-lambda-name", "job-modify-issue-name"}
+	for i := range len(repoNames) {
+		repoName := repoNames[i]
+		pullGitRepo(repoName)
 	}
 }
 

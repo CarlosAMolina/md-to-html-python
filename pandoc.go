@@ -1,5 +1,7 @@
 package main
 
+import "path/filepath"
+
 // To export pandoc template html: pandoc -D html > /tmp/template-default.html
 // https://pandoc.org/MANUAL.html#option--print-default-template
 
@@ -24,11 +26,12 @@ func buildDockerImagePandoc() {
 }
 
 func copyContentToVolumePandoc() {
+	mdPath := filepath.Join(getPathSoftware(), "cmoli.es", "deploy", "md-to-html")
 	volumePath := getVolumePath("pandoc")
-	run("cp -r md-to-html/create-pandoc-script-for-files " + volumePath)
-	run("cp -r md-to-html/pandoc-config " + volumePath)
-	run("cp md-to-html/convert-md-to-html " + volumePath)
-	run("cp md-to-html/run-create-pandoc-script-for-files " + volumePath)
+	run("cd " + mdPath + " && cp -r create-pandoc-script-for-files " + volumePath)
+	run("cd " + mdPath + " && cp -r pandoc-config " + volumePath)
+	run("cd " + mdPath + " && cp convert-md-to-html " + volumePath)
+	run("cd " + mdPath + " && cp run-create-pandoc-script-for-files " + volumePath)
 }
 
 func pullDockerPandoc() {
@@ -64,6 +67,6 @@ func runDockerPandoc() {
 		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
 		pandoc-convert-md-to-html`)
 	for isContainerRunning("pandoc-convert-md-to-html-container") {
-		sleep(2)
+		sleep(4)
 	}
 }
