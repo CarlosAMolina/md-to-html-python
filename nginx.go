@@ -33,12 +33,10 @@ func copyContentToVolumeNginx() {
 	}
 }
 
-// TODO add to all dockers: if imageExist, not download
 func pullDockerNginx() {
 	pullDocker("nginx:latest")
 }
 
-// TODO add to all dockers: if imageExist, not build
 func buildDockerImageNginx() {
 	if existsImage("nginx-cmoli") {
 		fmt.Println("No build is required: nginx-cmoli")
