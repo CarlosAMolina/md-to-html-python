@@ -18,14 +18,13 @@ func buildDockerCreatePandocScript() {
 	}
 	command := `docker build \
 	-t {image} \
-	-f {dockerfile} \
+	-f docker/Dockerfile-create-pandoc-script-for-files \
 	--build-arg docker_image=python:3.8.15-alpine3.16 \
 	--build-arg volume_nginx_web_content=nginx-web-content \
 	--build-arg volume_pandoc=pandoc \
-	.`
+	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	dockerfile := filepath.Join(getPathSoftware(), "cmoli.es-deploy", "docker", "Dockerfile-create-pandoc-script-for-files")
-	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
+	command = strings.ReplaceAll(command, "{buildDir}", filepath.Join(getPathSoftware(), "cmoli.es-deploy"))
 	run(command)
 }
 
@@ -37,13 +36,12 @@ func buildDockerImagePandoc() {
 	}
 	command := `docker build \
 	-t {image} \
-	-f {dockerfile} \
+	-f md-to-html/Dockerfile-convert-md-to-html-for-files \
 	--build-arg docker_image=pandoc/minimal:2.17-alpine \
 	--build-arg volume_pandoc=pandoc \
-	.`
+	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	dockerfile := filepath.Join(getPathSoftware(), "cmoli.es-deploy", "md-to-html/Dockerfile-convert-md-to-html-for-files")
-	command = strings.ReplaceAll(command, "{dockerfile}", dockerfile)
+	command = strings.ReplaceAll(command, "{buildDir}", filepath.Join(getPathSoftware(), "cmoli.es-deploy"))
 	run(command)
 }
 

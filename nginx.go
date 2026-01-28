@@ -48,10 +48,9 @@ func buildDockerImageNginx() {
 		-t {image} \
 		-f docker/Dockerfile-nginx \
 		--build-arg docker_image=nginx:latest \
-	.`
+	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	// The Dockerfile executes COPY actions, we have to `cd` to its folder.
-	command = "cd " + filepath.Join(getPathSoftware(), "cmoli.es-deploy") + " && " + command
+	command = strings.ReplaceAll(command, "{buildDir}", filepath.Join(getPathSoftware(), "cmoli.es-deploy"))
 	run(command)
 }
 
