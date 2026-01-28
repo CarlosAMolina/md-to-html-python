@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -17,6 +18,10 @@ func createVolume(volume string) {
 }
 
 func pullDocker(image string) {
+	if existsImage(image) {
+		fmt.Println("No pull is required: " + image)
+		return
+	}
 	run("docker pull " + image)
 }
 
@@ -71,6 +76,12 @@ func sleep(seconds int) {
 func isContainerRunning(container string) bool {
 	out := run("docker ps --format '{{.Names}}'")
 	return strings.Contains(string(out), container)
+}
+
+func existsImage(image string) bool {
+	command := "docker image inspect " + image
+	_, err := exec.Command("bash", "-c", command).Output()
+	return err == nil
 }
 
 func existsVolume(volume string) bool {

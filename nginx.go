@@ -40,6 +40,10 @@ func pullDockerNginx() {
 
 // TODO add to all dockers: if imageExist, not build
 func buildDockerImageNginx() {
+	if existsImage("nginx-cmoli") {
+		fmt.Println("No build is required: nginx-cmoli")
+		return
+	}
 	run(`docker build \
 		-t nginx-cmoli \
 		-f docker/Dockerfile-nginx \

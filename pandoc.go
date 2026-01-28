@@ -1,12 +1,19 @@
 package main
 
-import "path/filepath"
+import (
+	"fmt"
+	"path/filepath"
+)
 
 // To export pandoc template html: pandoc -D html > /tmp/template-default.html
 // https://pandoc.org/MANUAL.html#option--print-default-template
 
 // Connect: docker exec -it python-create-pandoc-script-container /bin/sh
 func buildDockerCreatePandocScript() {
+	if existsImage("python-create-pandoc-script") {
+		fmt.Println("No build is required: python-create-pandoc-script")
+		return
+	}
 	run(`docker build \
 	-t python-create-pandoc-script \
 	-f docker/Dockerfile-create-pandoc-script-for-files \
@@ -17,6 +24,10 @@ func buildDockerCreatePandocScript() {
 }
 
 func buildDockerImagePandoc() {
+	if existsImage("pandoc-convert-md-to-html") {
+		fmt.Println("No build is required: pandoc-convert-md-to-html")
+		return
+	}
 	run(`docker build \
 	-t pandoc-convert-md-to-html \
 	--build-arg docker_image=pandoc/minimal:2.17-alpine \
