@@ -8,8 +8,6 @@ import (
 )
 
 func main() {
-	testLocal()
-	os.Exit(0) // TODO rm above
 	fmt.Println("Welcome to the cmoli.es deployment CLI!")
 	showHelp()
 	var choice string
@@ -19,13 +17,7 @@ func main() {
 		switch choice {
 		case "1":
 			fmt.Println("Starting full deployment")
-			// TODO:
-			//assert-required-file-updated-and-update-branch \
-			//clone-projects-content \
-			//clone-wiki \
-			//activate-docker-if-not-active \
-			//stop-containers \
-			//create-web-content
+			deploy()
 			os.Exit(0)
 		case "2":
 			testLocal()
@@ -49,15 +41,13 @@ func showHelp() {
 	fmt.Println("h. Show help")
 }
 
-func testLocal() {
-	fmt.Println("Testing local")
+func deploy() {
 	pullGitRepo("cmoli.es")
 	pullGitRepo("cmoli.es-deploy")
 	pullGitRepo("checkIframe")
 	pullGitRepo("wiki")
 	pullGitTools()
 	startDockerService()
-	// TODO add a menu option to stop the testing web container.
 	stopContainer("nginx-cmoli-container")
 	removeVolume("nginx-web-content")
 	removeVolume("pandoc")
@@ -74,6 +64,10 @@ func testLocal() {
 	runDockerPandoc()
 	modifyHtml()
 	copyMediaToDockerVolume()
+}
+
+func testLocal() {
+	deploy()
 	pullDockerNginx()
 	buildDockerImageNginx()
 	runDockerNginx()
