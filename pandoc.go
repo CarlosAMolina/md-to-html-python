@@ -94,7 +94,8 @@ func runDockerPandoc() {
 		--mount type=volume,source=pandoc,target=/pandoc \
 		--mount type=volume,source=nginx-web-content,target=/nginx-web-content \
 		pandoc-convert-md-to-html`)
+	fmt.Println("Waiting Pandoc to finish")
 	for isContainerRunning("pandoc-convert-md-to-html-container") {
-		sleep(4)
+		sleep(5)
 	}
 }
