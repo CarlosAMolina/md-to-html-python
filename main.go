@@ -18,6 +18,7 @@ func main() {
 		case "1":
 			fmt.Println("Starting full deployment")
 			deploy()
+			fmt.Println("Done! :)")
 			os.Exit(0)
 		case "2":
 			testLocal()
