@@ -109,6 +109,9 @@ func exists(dirPath string) bool {
 }
 
 func copyMediaToDockerVolume() {
-	path := getVolumePath("nginx-web-content")
-	run("cp -r ~/Software/cmoli-media-content/* " + path)
+	volumePath := getVolumePath("nginx-web-content")
+	run("cp -r ~/Software/cmoli-media-content/* " + volumePath)
+	videoVolumePath := filepath.Join(volumePath, "felices-fiestas/src/movie.mp4")
+	run("rm " + videoVolumePath)
+	run("ln -s ~/Software/cmoli-media-content/felices-fiestas/src/movie.mp4 " + videoVolumePath)
 }
