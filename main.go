@@ -113,5 +113,6 @@ func copyMediaToDockerVolume() {
 	run("cp -r ~/Software/cmoli-media-content/* " + volumePath)
 	videoVolumePath := filepath.Join(volumePath, "felices-fiestas/src/movie.mp4")
 	run("rm " + videoVolumePath)
+	// TODO analyze why local test deploy does not work but in the VPS works.
 	run("ln -s ~/Software/cmoli-media-content/felices-fiestas/src/movie.mp4 " + videoVolumePath)
 }
