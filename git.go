@@ -17,6 +17,6 @@ func pullGitRepo(repo string) {
 	if exists(repoPath) {
 		run("cd " + repoPath + " && git pull origin $(git branch --show-current)")
 	} else {
-		run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/" + repo + " " + repoPath)
+		run("git clone git@github.com:CarlosAMolina/" + repo + " " + repoPath)
 	}
 }
