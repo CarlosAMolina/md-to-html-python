@@ -43,11 +43,7 @@ func showHelp() {
 }
 
 func deploy() {
-	pullGitRepo("cmoli.es")
-	pullGitRepo("cmoli.es-deploy")
-	pullGitRepo("checkIframe")
-	pullGitRepo("wiki")
-	pullGitTools()
+	pullGitRepos()
 	startDockerService()
 	stopContainer("nginx-cmoli-container")
 	removeVolume("nginx-web-content")
@@ -70,15 +66,6 @@ func deploy() {
 func testLocal() {
 	deploy()
 	run("firefox " + getVolumePath("nginx-web-content") + "/index.html")
-}
-
-func pullGitRepo(repo string) {
-	repoPath := filepath.Join(getPathSoftware(), repo)
-	if exists(repoPath) {
-		run("cd " + repoPath + " && git pull origin $(git branch --show-current)")
-	} else {
-		run("git clone --depth=1 --branch=main https://github.com/CarlosAMolina/" + repo + " " + repoPath)
-	}
 }
 
 func getPathSoftware() string {
