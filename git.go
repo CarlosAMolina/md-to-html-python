@@ -8,6 +8,7 @@ func pullGitRepos() {
 	pullGitRepo("cmoli.es")
 	pullGitRepo("cmoli.es-deploy")
 	pullGitRepo("checkIframe")
+	pullGitRepo("md-to-html-go")
 	pullGitRepo("wiki")
 	pullGitTools()
 }
