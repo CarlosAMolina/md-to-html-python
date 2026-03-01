@@ -53,6 +53,8 @@ func deploy() {
 	buildDockerCreatePandocScript()
 	createVolume("nginx-web-content")
 	createVolume("pandoc")
+	err := prepareMdContentToConvert()
+	exitIfError(err)
 	copyContentToVolumeNginx()
 	copyContentToVolumePandoc()
 	runDockerCreatePandocScript()
@@ -61,6 +63,13 @@ func deploy() {
 	runDockerPandoc()
 	modifyHtml()
 	copyMediaToDockerVolume()
+}
+
+func exitIfError(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "unexpected error %v\n", err)
+		os.Exit(1)
+	}
 }
 
 func testLocal() {
