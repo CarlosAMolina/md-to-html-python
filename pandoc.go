@@ -45,7 +45,7 @@ func buildDockerImagePandoc() {
 	--build-arg volume_pandoc=pandoc \
 	{buildDir}`
 	command = strings.ReplaceAll(command, "{image}", image)
-	buildDir := filepath.Join(getPathSoftware(), "cmoli.es-deploy")
+	buildDir := filepath.Join(getPathSoftware(), "md-to-html-python")
 	// Fixed builDir to not use random value if the executable runs in a differente directory.
 	command = strings.ReplaceAll(command, "{buildDir}", buildDir)
 	dockerfile := filepath.Join(buildDir, "md-to-html/Dockerfile-convert-md-to-html-for-files")
@@ -54,7 +54,7 @@ func buildDockerImagePandoc() {
 }
 
 func copyContentToVolumePandoc() {
-	mdPath := filepath.Join(getPathSoftware(), "cmoli.es-deploy", "md-to-html")
+	mdPath := filepath.Join(getPathSoftware(), "md-to-html-python", "md-to-html")
 	volumePath := getVolumePath("pandoc")
 	run("cd " + mdPath + " && cp -r create-pandoc-script-for-files " + volumePath)
 	run("cd " + mdPath + " && cp -r pandoc-config " + volumePath)
